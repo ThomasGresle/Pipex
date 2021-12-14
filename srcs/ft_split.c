@@ -5,24 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/13 19:00:46 by tgresle           #+#    #+#             */
-/*   Updated: 2020/01/07 18:41:52 by tgresle          ###   ########.fr       */
+/*   Created: 2021/12/14 11:25:30 by tgresle           #+#    #+#             */
+/*   Updated: 2021/12/14 12:44:02 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-static int	is_sep(char c, char a)
-{
-	if (c == a)
-		return (1);
-	else
-		return (0);
-}
+#include "../includes/pipex.h"
 
 static int	strlensep(char const *s, char c, int i)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (s[i] && s[i] == c)
@@ -37,8 +29,8 @@ static int	strlensep(char const *s, char c, int i)
 
 static int	nbr_str(char const *s, char c)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -54,38 +46,54 @@ static int	nbr_str(char const *s, char c)
 	return (j);
 }
 
-static void	last_malloc(char **str, int *j)
+static int	is_sep(char c, char a)
 {
-	if (!(str[(*j)] = malloc(sizeof(char) * 1)))
-		return ;
-	str[(*j)] = 0;
+	if (c == a)
+		return (1);
+	else
+		return (0);
 }
 
-char		**ft_split(char const *s, char c)
+int	loop_split(const char *s, int *i, char c, char **str)
+{
+	int	k;
+	int	j;
+
+	k = 0;
+	j = 0;
+	while (s[(*i)] && is_sep(s[(*i)], c))
+		(*i)++;
+	if (s[(*i)])
+		str[j] = malloc(sizeof(char) * (strlensep(s, c, (*i)) + 1));
+	if (!(str[j]))
+		return (0);
+	while (s[(*i)] && (is_sep(s[(*i)], c) == 0))
+		str[j][k++] = s[(*i)++];
+	str[j++][k] = '\0';
+	k = 0;
+	return (j);
+}
+
+char	**ft_split(char const *s, char c)
 {
 	int		i;
 	int		j;
-	int		k;
 	char	**str;
 
 	if (s == NULL)
 		return (NULL);
 	i = 0;
 	j = 0;
-	k = 0;
-	if (!(str = malloc(sizeof(char *) * (nbr_str(s, c) + 1))))
+	str = malloc(sizeof(char *) * (nbr_str(s, c) + 1));
+	if (!(str))
 		return (0);
 	while (s[i] && strlensep(s, c, i) != 0)
 	{
-		while (s[i] && is_sep(s[i], c))
-			i++;
-		if (s[i] && !(str[j] = malloc(sizeof(char) * (strlensep(s, c, i) + 1))))
-			return (0);
-		while (s[i] && (is_sep(s[i], c) == 0))
-			str[j][k++] = s[i++];
-		str[j++][k] = '\0';
-		k = 0;
+		j = loop_split(s, &i, c, str);
 	}
-	last_malloc(str, &j);
+	str[j] = malloc(sizeof(char) * 1);
+	if (!(str[j]))
+		return (0);
+	str[j] = 0;
 	return (str);
 }

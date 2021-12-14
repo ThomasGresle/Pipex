@@ -2,8 +2,6 @@ NAME		=	pipex
 
 HEADER		=	./includes/
 
-LIBFT		=	Libft/libft.a
-
 CC			=	gcc
 
 FLAGS		=	-g -Werror -Wall -Wextra -I $(HEADER)
@@ -11,6 +9,8 @@ FLAGS		=	-g -Werror -Wall -Wextra -I $(HEADER)
 SRCS		=	srcs/pipex.c \
 			srcs/process.c \
 			srcs/utils.c \
+			srcs/utils_libft.c \
+			srcs/ft_split.c \
 
 OBJS		=	$(SRCS:.c=.o)
 
@@ -20,25 +20,12 @@ OBJS		=	$(SRCS:.c=.o)
 all		:	$(NAME)
 
 $(NAME)		:	$(OBJS) $(LIBFT) $(HEADER)
-			$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LIBFT)
-
-$(LIBFT)	:
-			make -C ./Libft
+			$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 clean		:
 			rm -rf $(OBJS)
 
 fclean		:	clean
 			rm -f $(NAME)
-
-libft		:
-			@make -C Libft/ all
-
-libftfclean	:
-			@make -C Libft/ fclean
-
-libftre		:
-			@make -C Libft/ re
-			@make re
 
 re		:	fclean all
