@@ -6,7 +6,7 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 19:16:18 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/14 12:14:00 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/14 15:49:59 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,18 @@ int	main(int ac, char **av, char **envp)
 	int	fd1;
 	int	fd2;
 
-	if (ac == 5)
+	if (ac != 5)
 	{
-		fd1 = open(av[1], O_RDONLY);
-		fd2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-		if (fd1 < 0 || fd2 < 0)
-		{
-			clean(fd1, av);
-			return (-1);
-		}
-		pipex(fd1, fd2, av, envp);
-		return (0);
-	}
-	else
-	{
-		ft_putstr("Invalid number of arguments.\n");
+		ft_putstr("Invalid number of arguments\n");
 		return (-1);
 	}
-	return (-1);
+	fd1 = open(av[1], O_RDONLY);
+	fd2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (fd1 < 0 || fd2 < 0)
+	{
+		clean(fd1, av);
+		return (-1);
+	}
+	pipex(fd1, fd2, av, envp);
+	return (0);
 }

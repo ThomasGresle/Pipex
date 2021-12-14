@@ -2,7 +2,7 @@ NAME		=	pipex
 
 HEADER		=	./includes/
 
-CC			=	gcc
+CC			=	clang
 
 FLAGS		=	-g -Werror -Wall -Wextra -I $(HEADER)
 
@@ -11,6 +11,7 @@ SRCS		=	srcs/pipex.c \
 			srcs/utils.c \
 			srcs/utils_libft.c \
 			srcs/ft_split.c \
+			srcs/utils_split.c \
 
 OBJS		=	$(SRCS:.c=.o)
 
