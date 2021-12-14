@@ -6,13 +6,13 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 19:16:18 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/14 15:49:59 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/14 20:41:13 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	clean_fd2(char **av)
+void	clean_fd2(int fd1, char **av)
 {
 	if (access(av[4], F_OK) < 0)
 	{
@@ -26,27 +26,23 @@ void	clean_fd2(char **av)
 		ft_putstr(av[4]);
 		ft_putchar('\n');
 	}
+	close(fd1);
 }
 
-void	clean(int fd1, char **av)
+void	clean(char **av)
 {
-	if (fd1 < 0)
+	if (access(av[1], F_OK) < 0)
 	{
-		if (access(av[1], F_OK) < 0)
-		{
-			ft_putstr("no such file or directory: ");
-			ft_putstr(av[1]);
-			ft_putchar('\n');
-		}
-		else
-		{
-			ft_putstr("permission denied: ");
-			ft_putstr(av[1]);
-			ft_putchar('\n');
-		}
+		ft_putstr("no such file or directory: ");
+		ft_putstr(av[1]);
+		ft_putchar('\n');
 	}
 	else
-		clean_fd2(av);
+	{
+		ft_putstr("permission denied: ");
+		ft_putstr(av[1]);
+		ft_putchar('\n');
+	}
 }
 
 void	pipex(int fd1, int fd2, char **argv, char **envp)
@@ -56,7 +52,7 @@ void	pipex(int fd1, int fd2, char **argv, char **envp)
 
 	if (pipe(end) < 0)
 	{
-		ft_putstr("pipe error\n");
+		ft_putstr_fd("pipe error\n");
 		close(fd1);
 		close(fd2);
 		exit(-1);
@@ -81,14 +77,19 @@ int	main(int ac, char **av, char **envp)
 
 	if (ac != 5)
 	{
-		ft_putstr("Invalid number of arguments\n");
+		ft_putstr("use: ./pipex file1 cmd1 cmd2 file2\n");
 		return (-1);
 	}
 	fd1 = open(av[1], O_RDONLY);
-	fd2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (fd1 < 0 || fd2 < 0)
+	if (fd1 < 0)
 	{
-		clean(fd1, av);
+		clean(av);
+		return (-1);
+	}
+	fd2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (fd2 < 0)
+	{
+		clean_fd2(fd1, av);
 		return (-1);
 	}
 	pipex(fd1, fd2, av, envp);

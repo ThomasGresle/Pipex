@@ -6,7 +6,7 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 19:16:08 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/14 15:32:53 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/14 20:08:58 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,24 @@ void	clean_matrice(char **mat)
 	int	i;
 
 	i = 0;
-	while (mat[i])
+	while (mat && mat[i])
 	{
 		free(mat[i]);
 		i++;
 	}
-	free(mat[i]);
-	free(mat);
+	if (mat && mat[i])
+		free(mat[i]);
+	if (mat)
+		free(mat);
 }
 
 void	error_cmd(char *str, char **mat1, char **mat2)
 {
-	ft_putstr("command not found\n");
-	free(str);
+	ft_putstr_fd("command not found: ");
+	ft_putstr_fd(mat2[0]);
+	ft_putstr_fd("\n");
+	if (str)
+		free(str);
 	clean_matrice(mat1);
 	clean_matrice(mat2);
 }
@@ -74,9 +79,6 @@ int	parent_process(int fd, char *cmd, int *end, char **envp)
 
 int	child_process(int fd, char *cmd, int *end, char **envp)
 {
-	int	status;
-
-	status = 0;
 	if (dup2(fd, STDIN_FILENO) < 0)
 		return (0);
 	close(fd);

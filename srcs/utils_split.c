@@ -6,7 +6,7 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 15:23:03 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/14 15:38:08 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/14 20:41:32 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,9 @@ char	**first_malloc(const char *s, char c)
 	if (!(str))
 		return (0);
 	return (str);
+}
+
+void	ft_putstr_fd(char *s)
+{
+	write(2, s, ft_strlen(s));
 }
