@@ -6,13 +6,14 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 18:02:52 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/14 12:05:44 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/14 20:25:23 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# define APP_NAME "\033[1;34mpipex\033[0m"
 # include <unistd.h>
 # include <sys/types.h>
 # include <errno.h>
@@ -22,6 +23,7 @@
 # include <stdlib.h>
 
 char	**ft_split(char const *s, char c);
+size_t	ft_strlen(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 void	parse_path_and_exec(char **envp, char *cmd);
@@ -35,6 +37,7 @@ void	ft_putstr(char *s);
 size_t	ft_strlen(const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-int		loop_split(const char *s, int *i, char c, char **str);
+char	**first_malloc(const char *s, char c);
+void	ft_putstr_fd(char *s);
 
 #endif

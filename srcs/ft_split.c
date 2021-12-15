@@ -6,7 +6,7 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 11:25:30 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/14 12:44:02 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/15 15:05:09 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,6 @@ static int	strlensep(char const *s, char c, int i)
 	return (j);
 }
 
-static int	nbr_str(char const *s, char c)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		if (s[i] != c)
-			j++;
-		while (s[i] != c && s[i])
-			i++;
-		while (s[i] == c && s[i])
-			i++;
-	}
-	return (j);
-}
-
 static int	is_sep(char c, char a)
 {
 	if (c == a)
@@ -54,46 +35,39 @@ static int	is_sep(char c, char a)
 		return (0);
 }
 
-int	loop_split(const char *s, int *i, char c, char **str)
+static void	last_malloc(char **str, int *j)
 {
-	int	k;
-	int	j;
-
-	k = 0;
-	j = 0;
-	while (s[(*i)] && is_sep(s[(*i)], c))
-		(*i)++;
-	if (s[(*i)])
-		str[j] = malloc(sizeof(char) * (strlensep(s, c, (*i)) + 1));
-	if (!(str[j]))
-		return (0);
-	while (s[(*i)] && (is_sep(s[(*i)], c) == 0))
-		str[j][k++] = s[(*i)++];
-	str[j++][k] = '\0';
-	k = 0;
-	return (j);
+	str[(*j)] = malloc(sizeof(char) * 1);
+	if (!(str[(*j)]))
+		return ;
+	str[(*j)] = 0;
 }
 
 char	**ft_split(char const *s, char c)
 {
 	int		i;
 	int		j;
+	int		k;
 	char	**str;
 
 	if (s == NULL)
 		return (NULL);
 	i = 0;
 	j = 0;
-	str = malloc(sizeof(char *) * (nbr_str(s, c) + 1));
-	if (!(str))
-		return (0);
+	k = 0;
+	str = first_malloc(s, c);
 	while (s[i] && strlensep(s, c, i) != 0)
 	{
-		j = loop_split(s, &i, c, str);
+		while (s[i] && is_sep(s[i], c))
+			i++;
+		str[j] = malloc(sizeof(char) * (strlensep(s, c, i) + 1));
+		if (!(str[j]))
+			return (0);
+		while (s[i] && (is_sep(s[i], c) == 0))
+			str[j][k++] = s[i++];
+		str[j++][k] = '\0';
+		k = 0;
 	}
-	str[j] = malloc(sizeof(char) * 1);
-	if (!(str[j]))
-		return (0);
-	str[j] = 0;
+	last_malloc(str, &j);
 	return (str);
 }
