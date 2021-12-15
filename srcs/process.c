@@ -6,7 +6,7 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 19:16:08 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/15 16:07:11 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/15 17:52:08 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,8 @@ void	parse_path_and_exec(char **envp, char *cmd)
 	while (cmd_path[++i])
 	{
 		cmd_and_path = ft_strjoin(cmd_path[i], cmd_and_options[0]);
-		if (access(cmd_and_path, F_OK) != 0)
-			free(cmd_and_path);
-		else
-		{
-			execve(cmd_and_path, cmd_and_options, envp);
-			free(cmd_and_path);
-		}
+		execve(cmd_and_path, cmd_and_options, envp);
+		free(cmd_and_path);
 	}
 	error_cmd(envp_cmd_paths, cmd_path, cmd_and_options);
 }

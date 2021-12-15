@@ -6,7 +6,7 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 15:23:03 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/15 16:31:30 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/15 17:53:07 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,4 @@ char	**first_malloc(const char *s, char c)
 void	ft_putstr_fd(char *s)
 {
 	write(2, s, ft_strlen(s));
-}
-
-int	check_split(const char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while (str && str[i])
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
 }
