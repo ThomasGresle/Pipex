@@ -6,7 +6,7 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 19:16:18 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/15 17:47:58 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/15 19:22:42 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	pipex(int fd1, int fd2, char **argv, char **envp)
 		exit(-1);
 	}
 	id = fork();
+	if (id < 0)
+		return ;
 	if (id == 0)
 	{
 		close(end[1]);

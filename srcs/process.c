@@ -6,7 +6,7 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 19:16:08 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/15 17:52:08 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/15 19:24:45 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ void	parse_path_and_exec(char **envp, char *cmd)
 
 int	parent_process(int fd, char *cmd, int *end, char **envp)
 {
+	int	status;
+
+	status = 0;
+	waitpid(-1, &status, 0);
 	if (dup2(end[0], STDIN_FILENO) < 0)
 		return (0);
 	close(end[0]);
