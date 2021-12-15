@@ -6,7 +6,7 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 18:02:52 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/14 20:25:23 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/15 16:31:36 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**first_malloc(const char *s, char c);
 void	ft_putstr_fd(char *s);
+int		check_split(const char *str, char c);
 
 #endif

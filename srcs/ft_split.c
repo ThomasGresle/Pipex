@@ -6,7 +6,7 @@
 /*   By: tgresle <tgresle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 11:25:30 by tgresle           #+#    #+#             */
-/*   Updated: 2021/12/15 15:05:09 by tgresle          ###   ########.fr       */
+/*   Updated: 2021/12/15 16:58:28 by tgresle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,6 @@ static int	is_sep(char c, char a)
 		return (0);
 }
 
-static void	last_malloc(char **str, int *j)
-{
-	str[(*j)] = malloc(sizeof(char) * 1);
-	if (!(str[(*j)]))
-		return ;
-	str[(*j)] = 0;
-}
-
 char	**ft_split(char const *s, char c)
 {
 	int		i;
@@ -50,8 +42,8 @@ char	**ft_split(char const *s, char c)
 	int		k;
 	char	**str;
 
-	if (s == NULL)
-		return (NULL);
+	if (s == 0)
+		return (0);
 	i = 0;
 	j = 0;
 	k = 0;
@@ -68,6 +60,6 @@ char	**ft_split(char const *s, char c)
 		str[j++][k] = '\0';
 		k = 0;
 	}
-	last_malloc(str, &j);
+	str[j] = 0;
 	return (str);
 }
